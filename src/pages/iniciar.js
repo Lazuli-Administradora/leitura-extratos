@@ -1,5 +1,6 @@
 import Card from "../components/Card";
 import { useState } from "react";
+import { parseAndCalc } from "../utils/parseAndCalc.js";
 
 
 export default function Iniciar() {
@@ -10,11 +11,14 @@ export default function Iniciar() {
 
   const handleFileChange = (e) => {
     if (e.target.files.length) {
-      setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      setFile(file);
     } else {
       setFile(null);
     }
   };
+  
+  
 
   const handleMonthSelect = (month) => {
     setSelectedMonth(month);
@@ -22,9 +26,14 @@ export default function Iniciar() {
   };
 
   const handleCalculate = () => {
-    setCalc(true);
-    alert("Calculando...")
-  }
+    if (!file) {
+      alert("Por favor, selecione um arquivo primeiro.");
+      return;
+    }
+  
+    parseAndCalc(selectedMonth);
+  };
+  
 
   return (
     <div className="hero min-h-screen bg-image ">
