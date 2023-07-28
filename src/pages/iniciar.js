@@ -18,6 +18,7 @@ export default function Iniciar() {
     setSelectedMonth(month);
     setIsOpen(false);
   };
+  console.log(isOpen)
 
   return (
     <div className="hero min-h-screen bg-image ">
@@ -27,7 +28,7 @@ export default function Iniciar() {
             <li className={`step ${file ? "step-success" : "step-warning"}`}>
               Adicionar Arquivo
             </li>
-            <li className={`step ${file && selectedMonth ? "step-warning" : ""}`}>
+            <li className={`step ${file && selectedMonth ? "step-success" : ""}`}>
               Selecionar Mês
             </li>
             <li className="step">Somar</li>
@@ -39,19 +40,51 @@ export default function Iniciar() {
             onChange={handleFileChange}
           />
           <div className="divider"></div>
-          <details className="dropdown mb-32" open={isOpen}>
+          <details className="dropdown dropdown-right" open={isOpen}>
             <summary className="m-1 btn" onClick={() => setIsOpen(!isOpen)} disabled={file === null}>
-              Selecione o Mês
+              {selectedMonth?.length ? selectedMonth : "Selecione o Mês"}
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+            {(!selectedMonth?.length || isOpen) && (<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 h-60 overflow-auto ">
               <li>
                 <a onClick={() => handleMonthSelect('01 - Janeiro')}>01 - Janeiro</a>
               </li>
               <li>
                 <a onClick={() => handleMonthSelect('02 - Fevereiro')}>02 - Fevereiro</a>
               </li>
-            </ul>
+              <li>
+                <a onClick={() => handleMonthSelect('03 - Março')}>03 - Março</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('04 - Abril')}>04 - Abril</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('05 - Maio')}>05 - Maio</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('06 - Junho')}>06 - Junho</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('07 - Julho')}>07 - Julho</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('08 - Agosto')}>08 - Agosto</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('09 - Setembro')}>09 - Setembro</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('10 - Outubro')}>10 - Outubro</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('11 - Novembro')}>11 - Novembro</a>
+              </li>
+              <li>
+                <a onClick={() => handleMonthSelect('12 - Dezembro')}>12 - Dezembro</a>
+              </li>
+            </ul>)}
+            
           </details>
+          <div className="divider"></div>
         </Card>
       </div>
     </div>
