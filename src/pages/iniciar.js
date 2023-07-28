@@ -37,7 +37,7 @@ export default function Iniciar() {
             <li className={`step ${file && selectedMonth ? "step-success" : ""}`}>
               Selecionar Mês
             </li>
-            <li className={`step ${file && selectedMonth && calc ? "step-success" : ""}`}>Somar</li>
+            <li className={`step ${file && selectedMonth && calc ? "step-success" : ""}`}>Calcular</li>
           </ul>
           <div className="divider"></div>
           <input
