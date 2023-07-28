@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-image {
+  position: relative;
+  background-image: url('https://www.lazuliadm.com.br/images/condominio.jpg');
+}
+
+.bg-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(21, 57, 89, 0.9); /* semi-transparent dark blue */
+}
