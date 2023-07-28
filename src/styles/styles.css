@@ -16,3 +16,7 @@
   left: 0;
   background: rgba(21, 57, 89, 0.9); /* semi-transparent dark blue */
 }
+
+.borderOn {
+  border: 1px solid #7c818b;
+}

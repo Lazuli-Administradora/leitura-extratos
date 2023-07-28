@@ -1,10 +1,12 @@
 import Card from "../components/Card";
 import { useState } from "react";
 
+
 export default function Iniciar() {
   const [file, setFile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(null);
+  const [calc, setCalc] = useState(false);
 
   const handleFileChange = (e) => {
     if (e.target.files.length) {
@@ -18,20 +20,24 @@ export default function Iniciar() {
     setSelectedMonth(month);
     setIsOpen(false);
   };
-  console.log(isOpen)
+
+  const handleCalculate = () => {
+    setCalc(true);
+    alert("Calculando...")
+  }
 
   return (
     <div className="hero min-h-screen bg-image ">
       <div className="hero-content text-center">
         <Card>
-          <ul className="steps">
-            <li className={`step ${file ? "step-success" : "step-warning"}`}>
+          <ul className="steps ">
+            <li className={`step ${file ? "step-success" : ""}`}>
               Adicionar Arquivo
             </li>
             <li className={`step ${file && selectedMonth ? "step-success" : ""}`}>
               Selecionar Mês
             </li>
-            <li className="step">Somar</li>
+            <li className={`step ${file && selectedMonth && calc ? "step-success" : ""}`}>Somar</li>
           </ul>
           <div className="divider"></div>
           <input
@@ -44,7 +50,7 @@ export default function Iniciar() {
             <summary className="m-1 btn" onClick={() => setIsOpen(!isOpen)} disabled={file === null}>
               {selectedMonth?.length ? selectedMonth : "Selecione o Mês"}
             </summary>
-            {(!selectedMonth?.length || isOpen) && (<ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 h-60 overflow-auto ">
+            {(!selectedMonth?.length || isOpen) && (<ul className="p-2 borderOn shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 h-60 overflow-auto ">
               <li>
                 <a onClick={() => handleMonthSelect('01 - Janeiro')}>01 - Janeiro</a>
               </li>
@@ -85,6 +91,7 @@ export default function Iniciar() {
             
           </details>
           <div className="divider"></div>
+          <button className="btn btn-secondary "disabled={selectedMonth === null} onClick={() => handleCalculate()}>Calcular</button>
         </Card>
       </div>
     </div>
