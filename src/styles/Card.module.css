@@ -3,6 +3,7 @@
   padding: 30px;
   border-radius: 10px;
   box-shadow: 6px 5px 1px 0 rgba(0, 0, 0, 0.7);
+  transition: all 0.8s ease;
 }
 
 .card h1 {
@@ -11,4 +12,8 @@
   font-size: 1.5rem;
   color: #272262;
   margin-bottom: 20px;
+}
+
+.card * {
+  transition: all 0.8s ease;
 }

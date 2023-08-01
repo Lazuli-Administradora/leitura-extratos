@@ -1,6 +1,8 @@
 import Card from "../components/Card";
 import { useState } from "react";
 import { parseAndCalc } from "../utils/parseAndCalc.js";
+import { CSSTransition } from 'react-transition-group';
+
 
 export default function Iniciar() {
   const meses = [
@@ -21,7 +23,10 @@ export default function Iniciar() {
   const [file, setFile] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [calc, setCalc] = useState(false);
+  const [totalDebitos, setTotalDebitos] = useState(0);
+  const [totalCreditos, setTotalCreditos] = useState(0);
 
+  // Handle file input change
   const handleFileChange = (e) => {
     if (e.target.files.length) {
       const file = e.target.files[0];
@@ -31,18 +36,30 @@ export default function Iniciar() {
     }
   };
 
-  const handleSelectedMonth = (month) => {
-    setSelectedMonth(month);
-    alert(`Mês selecionado: ${month}`)
-  };
-
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     if (!file) {
       alert("Por favor, selecione um arquivo primeiro.");
       return;
     }
 
-    parseAndCalc(selectedMonth);
+    try {
+      const result = await parseAndCalc(file, selectedMonth);
+      setCalc(true);
+      setTotalDebitos(result.totalDebitos);
+      setTotalCreditos(result.totalCreditos);
+    } catch (error) {
+      console.error("Erro ao ler ou processar o arquivo: ", error);
+    }
+  };
+
+  const handleSelectedMonth = (month) => {
+    setSelectedMonth(month);
+    console.log("Mes selecionado: ", month);
+  };
+
+  const handleReset = () => {
+    
+    window.location.reload();
   };
 
   return (
@@ -56,7 +73,7 @@ export default function Iniciar() {
             <li
               className={`step ${file && selectedMonth ? "step-success" : ""}`}
             >
-              Selecionar Mês
+              {selectedMonth ? selectedMonth : "Selecionar Mês"}
             </li>
             <li
               className={`step ${
@@ -78,7 +95,7 @@ export default function Iniciar() {
             className="btn"
             onClick={() => window.my_modal_5.showModal()}
           >
-            Selecionar Mês
+            {selectedMonth ? selectedMonth : "Selecionar Mês"}
           </button>
           <dialog
             id="my_modal_5"
@@ -92,7 +109,7 @@ export default function Iniciar() {
                     className="btn btn-secondary "
                     onClick={() => handleSelectedMonth(mes)}
                   >
-                    {`${(index + 1).toString().padStart(2, '0')} - ${mes}`}
+                    {`${(index + 1).toString().padStart(2, "0")} - ${mes}`}
                   </button>
                 ))}
               </div>
@@ -104,12 +121,40 @@ export default function Iniciar() {
           </dialog>
           <div className="divider"></div>
           <button
-            className="btn btn-secondary "
+            className="btn btn-primary "
             disabled={selectedMonth === null}
             onClick={() => handleCalculate()}
           >
             Calcular
           </button>
+
+          {(totalCreditos !== 0 || totalDebitos !== 0) && (
+            <div >
+              <div className="divider"></div>
+              <div className="alert alert-primary">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="stroke-current shrink-0 w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span className="text-error">Débitos: R${totalDebitos}</span>
+                <span className="text-success">
+                  Créditos: R${totalCreditos}
+                </span>
+              </div>
+              <button className="btn btn-secondary mt-4" onClick={handleReset}>
+                Reiniciar
+              </button>
+            </div>
+          )}
         </Card>
       </div>
     </div>
